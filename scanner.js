@@ -1,38 +1,82 @@
+let codeReader;
 
-let stream = null;
+async function startScanner(){
 
-async function startCamera() {
+    try{
 
-  try {
+        const video = document.getElementById("video");
 
-    stream = await navigator.mediaDevices.getUserMedia({
+        codeReader = new ZXingBrowser.BrowserQRCodeReader();
 
-      video: {
-        facingMode: {
-          ideal: "environment"
-        }
-      },
+        const devices =
+            await ZXingBrowser.BrowserCodeReader.listVideoInputDevices();
 
-      audio: false
+        console.log(devices);
 
-    });
+        let deviceId = devices[0].deviceId;
 
-    const video = document.getElementById("video");
+        // pilih kamera belakang kalau ada
+        devices.forEach(function(d){
 
-    video.srcObject = stream;
+            const name = d.label.toLowerCase();
 
-    await video.play();
+            if(
+                name.includes("back") ||
+                name.includes("rear") ||
+                name.includes("environment")
+            ){
 
-    console.log("✅ Camera Started");
+                deviceId = d.deviceId;
 
-  } catch (err) {
+            }
 
-    console.error(err);
+        });
 
-    alert("Camera Error : " + err.message);
+        codeReader.decodeFromVideoDevice(
 
-  }
+            deviceId,
+
+            video,
+
+            (result,error)=>{
+
+                if(result){
+
+                    onDetected(result.text);
+
+                }
+
+            }
+
+        );
+
+    }catch(err){
+
+        console.error(err);
+
+        alert(err);
+
+    }
 
 }
 
-window.onload = startCamera;
+let lastCode = "";
+
+function onDetected(text){
+
+    if(text==lastCode){
+        return;
+    }
+
+    lastCode=text;
+
+    console.log("QR =",text);
+
+    alert("QR : "+text);
+
+    // sementara berhenti dulu
+    codeReader.stop();
+
+}
+
+window.onload=startScanner;
