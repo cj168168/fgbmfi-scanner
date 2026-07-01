@@ -19,17 +19,15 @@ async function startScanner(){
 
             (result,error)=>{
 
-              if(result){
+                if(result){
 
-                        codeReader.stop();
+                    console.log(result.text);
 
-                        console.log(result.text);
+                    alert("QR : " + result.text);
 
-                       window.location.href =
-                                    "https://script.google.com/macros/s/AKfycbzk78w5BqDWSPOmCsNJe_QfMwVvqhsFD0HLe4ypCb0zt3SEDbF-RvvZyw1tkrLDWWXolQ/exec?page=scanResult&memberId="
-                                    + encodeURIComponent(result.text);
+                    codeReader.stop();
 
-                        }
+                }
 
             }
 
@@ -45,4 +43,4 @@ async function startScanner(){
 
 }
 
-window.onload=startScanner;
+window.onload = startScanner;
