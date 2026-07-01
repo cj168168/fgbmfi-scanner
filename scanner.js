@@ -34,9 +34,21 @@ async function startScanner(){
 
    const memberId = result.text.trim();
 
-window.open(
-    "location.href = https://www.google.com"
-);
+     console.log("QR =", memberId);
+
+                // hentikan scanner
+                codeReader.stop();
+
+                // beri jeda sedikit
+                setTimeout(() => {
+
+                    location.href =
+                        "https://script.google.com/macros/s/AKfycbzk78w5BqDWSPOmCsNJe_QfMwVvqhsFD0HLe4ypCb0zt3SEDbF-RvvZyw1tkrLDWWXolQ/exec?page=scanResult&memberId="
+                        + encodeURIComponent(memberId);
+
+                }, 300);
+
+
             }
 
 
