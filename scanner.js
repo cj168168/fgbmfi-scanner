@@ -19,17 +19,15 @@ async function startScanner(){
 
             (result,error)=>{
 
-                if(result){
+              if(result){
 
-                    console.log(result.text);
+                        codeReader.stop();
 
-                    alert("QR : "+result.text);
+                        console.log(result.text);
 
-                    codeReader.stop();
+                        previewMember(result.text);
 
-                    previewMember(result.text);
-
-                }
+                        }
 
             }
 
