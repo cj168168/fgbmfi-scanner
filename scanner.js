@@ -34,7 +34,7 @@ async function startScanner(){
 }
 
 async function onScan(result,error){
-
+alert("SCAN OK : " + result.text);
     if(error) return;
 
     if(!result) return;
