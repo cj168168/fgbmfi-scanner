@@ -12,26 +12,23 @@ async function startScanner(){
                 video:{
                     facingMode:"environment"
                 }
-
             },
 
             "video",
 
-            (result,error)=>{
+            (result, error) => {
 
-               if(result){
+                if(result){
 
-    console.log(result.text);
+                    console.log(result.text);
 
-    codeReader.stop();
+                    codeReader.stop();
 
-    alert("Redirecting...");
+                    alert("Redirecting...");
 
-    window.location.href =
-      "https://script.google.com/macros/s/AKfycbzk78w5BqDWSPOmCsNJe_QfMwVvqhsFD0HLe4ypCb0zt3SEDbF-RvvZyw1tkrLDWWXolQ/exec?page=scanResult&memberId="
-      + encodeURIComponent(result.text);
-
-}
+                    window.location.href =
+                    "https://script.google.com/macros/s/AKfycbzk78w5BqDWSPOmCsNJe_QfMwVvqhsFD0HLe4ypCb0zt3SEDbF-RvvZyw1tkrLDWWXolQ/exec?page=scanResult&memberId="
+                    + encodeURIComponent(result.text);
 
                 }
 
