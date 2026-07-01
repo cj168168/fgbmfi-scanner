@@ -27,6 +27,8 @@ async function startScanner(){
 
                     codeReader.stop();
 
+                    previewMember(result.text);
+
                 }
 
             }
