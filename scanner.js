@@ -34,59 +34,23 @@ async function startScanner(){
 
 }
 
-async function onScan(result,error){
-alert("SCAN OK : " + result.text);
+async function onScan(result, error){
+
     if(error) return;
-
     if(!result) return;
-
     if(scanning) return;
 
     scanning = true;
 
     const memberId = result.text.trim();
 
-    console.log("SCAN :",memberId);
+    alert("SCAN = " + memberId);
 
-    codeReader.stop();
+    // Jangan stop scanner
+    // Jangan fetch
+    // Jangan showGuest
 
-    try{
-
-        const res = await fetch(API_URL,{
-
-            method:"POST",
-
-            headers:{
-                "Content-Type":"application/json"
-            },
-
-            body:JSON.stringify({
-
-                action:"preview",
-
-                memberId:memberId
-
-            })
-
-        });
-
-        const data = await res.json();
-
-        console.log(data);
-
-        showGuest(data);
-
-    }
-
-    catch(err){
-
-        alert(err);
-
-        scanning=false;
-
-        startScanner();
-
-    }
+    return;
 
 }
 
