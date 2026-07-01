@@ -19,16 +19,19 @@ async function startScanner(){
 
             (result,error)=>{
 
-                if(result){
+               if(result){
 
-                    console.log(result.text);
+    console.log(result.text);
 
-                    codeReader.stop();
+    codeReader.stop();
 
-                    window.location.replace(
-                    "https://script.google.com/macros/s/AKfycbzk78w5BqDWSPOmCsNJe_QfMwVvqhsFD0HLe4ypCb0zt3SEDbF-RvvZyw1tkrLDWWXolQ/exec?page=scanResult&memberId="
-                    + encodeURIComponent(result.text)
-                            );
+    alert("Redirecting...");
+
+    window.location.href =
+      "https://script.google.com/macros/s/AKfycbzk78w5BqDWSPOmCsNJe_QfMwVvqhsFD0HLe4ypCb0zt3SEDbF-RvvZyw1tkrLDWWXolQ/exec?page=scanResult&memberId="
+      + encodeURIComponent(result.text);
+
+}
 
                 }
 
