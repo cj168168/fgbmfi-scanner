@@ -35,9 +35,7 @@ async function startScanner(){
    const memberId = result.text.trim();
 
 window.open(
-    "https://script.google.com/macros/s/AKfycbzk78w5BqDWSPOmCsNJe_QfMwVvqhsFD0HLe4ypCb0zt3SEDbF-RvvZyw1tkrLDWWXolQ/exec?page=scanResult&memberId="
-    + encodeURIComponent(memberId),
-    "_self"
+    "location.href = https://www.google.com"
 );
             }
 
