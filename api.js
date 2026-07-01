@@ -5,6 +5,8 @@ async function previewMember(memberId){
 
     try{
 
+        console.log("Preview :", memberId);
+
         const res = await fetch(
 
             API_URL +
@@ -14,7 +16,11 @@ async function previewMember(memberId){
 
         );
 
+        console.log("Status :", res.status);
+
         const data = await res.json();
+
+        console.log(data);
 
         showGuest(data);
 
@@ -25,5 +31,20 @@ async function previewMember(memberId){
         alert(err);
 
     }
+
+}
+
+async function checkInMember(memberId){
+
+    const res = await fetch(
+
+        API_URL +
+        "&action=checkin" +
+        "&memberId=" +
+        encodeURIComponent(memberId)
+
+    );
+
+    return await res.json();
 
 }
