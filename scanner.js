@@ -32,12 +32,9 @@ async function startScanner(){
     // Jangan stop scanner dulu
     // Jangan redirect dulu
 
-   const memberId = result.text.trim();
+    alert(result.text);
 
-window.open(
-    "location.href = https://www.google.com"
-);
-            }
+}
 
 
         );
