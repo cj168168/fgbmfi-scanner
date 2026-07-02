@@ -12,35 +12,24 @@ async function startScanner(){
                 video:{
                     facingMode:"environment"
                 }
+
             },
 
             "video",
 
-            (result, error) => {
+            (result,error)=>{
 
-    console.log("CALLBACK");
+                if(result){
 
-    if (error) {
-        console.log(error);
-        return;
-    }
+                    console.log(result.text);
 
-    if (!result) return;
+                    alert("QR : "+result.text);
 
-    console.log("RESULT =", result.text);
+                    codeReader.stop();
 
-    // Jangan stop scanner dulu
-    // Jangan redirect dulu
+                }
 
-   const memberId = result.text.trim();
-
-window.open(
-    "https://script.google.com/macros/s/AKfycbzk78w5BqDWSPOmCsNJe_QfMwVvqhsFD0HLe4ypCb0zt3SEDbF-RvvZyw1tkrLDWWXolQ/exec?page=scanResult&memberId="
-    + encodeURIComponent(memberId),
-    "_self"
-);
             }
-
 
         );
 
@@ -54,4 +43,4 @@ window.open(
 
 }
 
-window.onload = startScanner;
+window.onload=startScanner;
