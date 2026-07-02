@@ -1,63 +1,30 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>PES V2 - PERKABEM Event System</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="css/main.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PERKABEM QR Scanner</title>
 </head>
 
 <body>
 
-  <div class="app">
+<h2>📷 PERKABEM QR Scanner</h2>
 
-    <aside class="sidebar" id="sidebar">
-      <div class="brand">
-        <div class="brand-logo">P</div>
-        <div>
-          <h1>PERKABEM</h1>
-          <p>Event System V2</p>
-        </div>
-      </div>
+<video
+id="video"
+autoplay
+playsinline
+muted
+style="
+width:100%;
+max-width:420px;
+border-radius:12px;
+border:1px solid #ccc;
+">
+</video>
 
-      <nav class="menu">
-        <button class="menu-item active" data-page="dashboard">🏠 Dashboard</button>
-        <button class="menu-item" data-page="guest">👥 Guest</button>
-        <button class="menu-item" data-page="invitation">💌 Invitation</button>
-        <button class="menu-item" data-page="scanner">📷 Scanner</button>
-        <button class="menu-item" data-page="luckydraw">🎁 Lucky Draw</button>
-        <button class="menu-item" data-page="report">📊 Report</button>
-        <button class="menu-item" data-page="settings">⚙ Settings</button>
-      </nav>
-    </aside>
+<script src="https://unpkg.com/@zxing/browser@0.1.5/umd/zxing-browser.min.js"></script>  
+<script src="scanner.js"></script>
 
-    <main class="main">
-
-      <header class="topbar">
-        <button class="hamburger" id="hamburger">☰</button>
-
-        <div>
-          <h2 id="pageTitle">Dashboard</h2>
-          <p>HUT PERKABEM XX</p>
-        </div>
-
-        <div class="admin-badge">Admin</div>
-      </header>
-
-      <section class="content" id="content">
-        <!-- content injected by app.js -->
-      </section>
-
-    </main>
-
-  </div>
-
-  <script src="js/app.js"></script>
 </body>
 </html>
