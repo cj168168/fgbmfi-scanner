@@ -1,57 +1,47 @@
-let codeReader;
+let scanner;
+let locked = false;
 
-async function startScanner(){
+function startScanner(){
 
-    codeReader = new ZXingBrowser.BrowserQRCodeReader();
+  locked = false;
 
-    try{
+  scanner = new Html5Qrcode("reader");
 
-        await codeReader.decodeFromConstraints(
+  scanner.start(
+    { facingMode:"environment" },
+    {
+      fps:10,
+      qrbox:250
+    },
+    onScanSuccess
+  ).catch(function(err){
 
-            {
-                video:{
-                    facingMode:"environment"
-                }
-            },
+    document.getElementById("status").innerText =
+      "Camera error: " + err;
 
-            "video",
+  });
 
-            (result, error) => {
+}
 
-    console.log("CALLBACK");
+function onScanSuccess(decodedText){
 
-    if (error) {
-        console.log(error);
-        return;
-    }
+  if(locked) return;
 
-    if (!result) return;
+  locked = true;
 
-    console.log("RESULT =", result.text);
+  document.getElementById("status").innerText =
+    "QR terbaca, membuka check-in...";
 
-    // Jangan stop scanner dulu
-    // Jangan redirect dulu
+  scanner.stop().then(function(){
 
-   const memberId = result.text.trim();
+    window.location.href = decodedText;
 
-window.open(
-    "https://script.google.com/macros/s/AKfycbzk78w5BqDWSPOmCsNJe_QfMwVvqhsFD0HLe4ypCb0zt3SEDbF-RvvZyw1tkrLDWWXolQ/exec?page=scanResult&memberId="
-    + encodeURIComponent(memberId),
-    "_self"
-);
-            }
+  });
 
+}
 
-        );
-
-    }catch(err){
-
-        console.error(err);
-
-        alert(err);
-
-    }
-
+function restartScanner(){
+  location.reload();
 }
 
 window.onload = startScanner;
