@@ -26,16 +26,28 @@ function startScanner(){
 function onScanSuccess(decodedText){
 
   if(locked) return;
-
   locked = true;
 
-  document.getElementById("status").innerText =
-    "QR terbaca, membuka check-in...";
+  const parts = decodedText.split("|");
+
+  if(parts.length !== 2){
+    document.getElementById("status").innerText =
+      "QR tidak valid";
+    locked = false;
+    return;
+  }
+
+  const eventId = encodeURIComponent(parts[0]);
+  const memberId = encodeURIComponent(parts[1]);
+
+  const checkInUrl =
+    "https://script.google.com/macros/s/ISI_WEB_APP_ID/exec"
+    + "?page=checkin"
+    + "&eventId=" + eventId
+    + "&memberId=" + memberId;
 
   scanner.stop().then(function(){
-
-    window.location.href = decodedText;
-
+    window.location.href = checkInUrl;
   });
 
 }
