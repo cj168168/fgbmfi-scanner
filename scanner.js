@@ -41,7 +41,7 @@ function onScanSuccess(decodedText){
   const memberId = encodeURIComponent(parts[1]);
 
   const checkInUrl =
-    "https://script.google.com/macros/s/ISI_WEB_APP_ID/exec"
+    "https://script.google.com/macros/s/AKfycby-fqecjb73al_AT8vmQoG9LWqPeEtyN_-WyjrJwkM2ph4Fdk95xK2NmhqqEM5GSfcehw/exec"
     + "?page=checkin"
     + "&eventId=" + eventId
     + "&memberId=" + memberId;
