@@ -1,69 +1,34 @@
-function showGuest(
-  data,
-  scannedMemberNo
-) {
+function showGuest(data, scannedMemberNo) {
 
-  const body =
-    document.body;
+  const body = document.body;
 
-
-  let old =
-    document.getElementById(
-      "guestCard"
-    );
-
+  let old = document.getElementById("guestCard");
 
   if (old) {
-
     old.remove();
-
   }
 
+  const div = document.createElement("div");
 
-  const div =
-    document.createElement(
-      "div"
-    );
+  div.id = "guestCard";
 
-
-  div.id =
-    "guestCard";
-
-
-  div.style.margin =
-    "20px auto";
-
-
-  div.style.padding =
-    "25px";
-
-
-  div.style.border =
-    "1px solid white";
-
-
-  div.style.borderRadius =
-    "15px";
-
-
-  div.style.maxWidth =
-    "420px";
-
-
-  div.style.boxSizing =
-    "border-box";
+  div.style.margin = "20px auto";
+  div.style.padding = "25px";
+  div.style.border = "1px solid white";
+  div.style.borderRadius = "15px";
+  div.style.maxWidth = "420px";
+  div.style.boxSizing = "border-box";
 
 
   // ============================
-  // NORMALISASI STATUS
+  // DATA PESERTA
   // ============================
 
-  const status =
-    String(
-      data.status || ""
-    )
-    .trim()
-    .toUpperCase();
+  const status = String(
+    data.status || ""
+  )
+  .trim()
+  .toUpperCase();
 
 
   const nama =
@@ -72,8 +37,8 @@ function showGuest(
     "-";
 
 
-  // Gunakan No hasil QR
-  // BUKAN data.memberId
+  // Nomor peserta selalu
+  // menggunakan hasil QR
 
   const memberNo =
     String(
@@ -82,7 +47,7 @@ function showGuest(
 
 
   console.log(
-    "SHOW GUEST:",
+    "PREVIEW PESERTA:",
     {
       status: status,
       nama: nama,
@@ -93,7 +58,7 @@ function showGuest(
 
 
   // ============================
-  // MEMBER TIDAK DITEMUKAN
+  // PESERTA TIDAK DITEMUKAN
   // ============================
 
   if (
@@ -103,38 +68,30 @@ function showGuest(
 
     div.innerHTML = `
 
-      <h2 style="color:white">
-
+      <h2>
         ❌ PESERTA TIDAK DITEMUKAN
-
       </h2>
 
       <p>
-
-        No. Peserta:
-        ${memberNo}
-
+        No. Peserta: ${memberNo}
       </p>
 
       <button
         onclick="restartScanner()">
-
         Scan Lagi
-
       </button>
 
     `;
 
-
     body.appendChild(div);
 
     return;
-
   }
 
 
   // ============================
-  // SUDAH CHECK-IN
+  // PREVIEW:
+  // PESERTA SUDAH CHECK-IN
   // ============================
 
   if (
@@ -149,65 +106,48 @@ function showGuest(
     div.innerHTML = `
 
       <h2>
-
         ⚠️ SUDAH CHECK-IN
-
       </h2>
 
       <h3>
-
         ${nama}
-
       </h3>
 
       <p>
-
-        No. Peserta:
-        ${memberNo}
-
+        No. Peserta: ${memberNo}
       </p>
 
       <p>
-
         Peserta ini sudah melakukan
         check-in sebelumnya.
-
       </p>
 
       <button
         onclick="restartScanner()">
-
         Scan Lagi
-
       </button>
 
     `;
 
-
     body.appendChild(div);
 
     return;
-
   }
 
 
   // ============================
   // BELUM CHECK-IN
+  // TAMPILKAN TOMBOL
   // ============================
 
   div.innerHTML = `
 
     <h2>
-
       ${nama}
-
     </h2>
 
     <p>
-
-      No. Peserta:
-      ${memberNo}
-
+      No. Peserta: ${memberNo}
     </p>
 
     <button
@@ -226,13 +166,12 @@ function showGuest(
 }
 
 
+
 // ============================
 // PROSES CHECK-IN
 // ============================
 
-async function doCheckIn(
-  memberNo
-) {
+async function doCheckIn(memberNo) {
 
   const button =
     document.getElementById(
@@ -240,7 +179,9 @@ async function doCheckIn(
     );
 
 
-  // Cegah tombol ditekan 2x
+  // ============================
+  // CEGAH DOUBLE CLICK
+  // ============================
 
   if (button) {
 
@@ -261,7 +202,7 @@ async function doCheckIn(
 
 
     console.log(
-      "CHECK-IN RESULT:",
+      "HASIL CHECK-IN:",
       data
     );
 
@@ -287,91 +228,88 @@ async function doCheckIn(
 
 
     // ============================
-    // SUDAH PERNAH CHECK-IN
+    // BACKEND MENOLAK
+    // KARENA SUDAH CHECK-IN
     // ============================
 
     if (
-      status === "CHECK-IN" ||
-      status === "CHECKED-IN" ||
-      status === "CHECKED IN" ||
-      status === "CHECKED_IN" ||
       status === "ALREADY_CHECKED_IN" ||
-      status === "ALREADY CHECKED IN"
+      status === "ALREADY CHECKED IN" ||
+      status === "DUPLICATE"
     ) {
 
       div.innerHTML = `
 
         <h2>
-
           ⚠️ SUDAH CHECK-IN
-
         </h2>
 
         <h3>
-
           ${nama}
-
         </h3>
 
         <p>
+          No. Peserta: ${memberNo}
+        </p>
 
-          No. Peserta:
-          ${memberNo}
-
+        <p>
+          Peserta ini sudah melakukan
+          check-in sebelumnya.
         </p>
 
         <button
           onclick="restartScanner()">
-
           Scan Lagi
-
         </button>
 
       `;
 
-
       return;
-
     }
 
 
     // ============================
-    // CHECK-IN BERHASIL
+    // CHECK-IN PERTAMA BERHASIL
     // ============================
 
     div.innerHTML = `
 
       <h2>
-
         ✅ CHECK-IN BERHASIL
-
       </h2>
 
       <h3>
-
         ${nama}
-
       </h3>
 
       <p>
+        No. Peserta: ${memberNo}
+      </p>
 
-        No. Peserta:
-        ${memberNo}
-
+      <p>
+        Selamat datang di acara FGBMFI.
       </p>
 
     `;
 
 
+    // Otomatis kembali scanner
+    // setelah 3 detik
+
     setTimeout(
       restartScanner,
-      2500
+      3000
     );
 
   }
+
+
   catch (err) {
 
-    console.error(err);
+    console.error(
+      "CHECK-IN ERROR:",
+      err
+    );
 
 
     alert(
@@ -392,6 +330,7 @@ async function doCheckIn(
   }
 
 }
+
 
 
 // ============================
