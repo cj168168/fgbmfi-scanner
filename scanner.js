@@ -1,68 +1,199 @@
 let scanner;
 let locked = false;
 
-function setStatus(message){
+// Menyimpan No peserta hasil QR.
+// Contoh QR FGBMFI|001 -> currentMemberNo = "1"
+let currentMemberNo = "";
+
+function setStatus(message) {
   const el = document.getElementById("status");
-  if(el) el.innerText = message;
+
+  if (el) {
+    el.innerText = message;
+  }
 }
 
-function startScanner(){
+function startScanner() {
+
   locked = false;
+  currentMemberNo = "";
+
   setStatus("Arahkan kamera ke QR");
 
   scanner = new Html5Qrcode("reader");
 
   scanner.start(
-    { facingMode:"environment" },
-    { fps:10, qrbox:250 },
+    {
+      facingMode: "environment"
+    },
+    {
+      fps: 10,
+      qrbox: 250
+    },
     onScanSuccess
-  ).catch(function(err){
-    setStatus("Camera error: " + err);
+  )
+  .catch(function(err) {
+
+    console.error("Camera error:", err);
+
+    setStatus(
+      "Camera error: " + err
+    );
+
   });
+
 }
 
-async function onScanSuccess(decodedText){
-  if(locked) return;
+
+async function onScanSuccess(decodedText) {
+
+  // Cegah QR terbaca berkali-kali
+  if (locked) {
+    return;
+  }
+
   locked = true;
 
-  const parts = String(decodedText || "").split("|");
+  console.log(
+    "QR RAW:",
+    decodedText
+  );
 
-  if(parts.length !== 2){
-    setStatus("QR tidak valid");
+
+  // ============================
+  // VALIDASI FORMAT QR
+  // ============================
+
+  const parts =
+    String(decodedText || "")
+    .split("|");
+
+
+  if (parts.length !== 2) {
+
+    setStatus(
+      "QR tidak valid"
+    );
+
     locked = false;
+
     return;
   }
 
-  const eventCode = String(parts[0] || "").trim().toUpperCase();
-  const rawNo = String(parts[1] || "").trim();
 
-  if(eventCode !== "FGBMFI" || !/^\d{1,3}$/.test(rawNo)){
-    setStatus("QR FGBMFI tidak valid");
+  const eventCode =
+    String(parts[0] || "")
+    .trim()
+    .toUpperCase();
+
+
+  const rawNo =
+    String(parts[1] || "")
+    .trim();
+
+
+  // QR wajib:
+  // FGBMFI|001
+  // FGBMFI|002
+  // dst
+
+  if (
+    eventCode !== "FGBMFI" ||
+    !/^\d{1,3}$/.test(rawNo)
+  ) {
+
+    setStatus(
+      "QR FGBMFI tidak valid"
+    );
+
     locked = false;
+
     return;
   }
 
-  const noPeserta = String(parseInt(rawNo, 10));
-  setStatus("QR terbaca. Memuat data peserta...");
 
-  try{
-    if(scanner){
+  // ============================
+  // NORMALISASI NO PESERTA
+  // ============================
+
+  // 001 -> 1
+  // 002 -> 2
+  // 010 -> 10
+
+  currentMemberNo =
+    String(
+      parseInt(rawNo, 10)
+    );
+
+
+  console.log(
+    "NO PESERTA:",
+    currentMemberNo
+  );
+
+
+  setStatus(
+    "QR terbaca. Memuat data peserta..."
+  );
+
+
+  // ============================
+  // STOP CAMERA
+  // ============================
+
+  try {
+
+    if (scanner) {
+
       await scanner.stop();
+
     }
-  }catch(e){
-    console.warn("Scanner stop warning:", e);
+
+  }
+  catch (err) {
+
+    console.warn(
+      "Scanner stop warning:",
+      err
+    );
+
   }
 
-  try{
-    await previewMember(noPeserta);
-  }catch(err){
+
+  // ============================
+  // PREVIEW PESERTA
+  // ============================
+
+  try {
+
+    await previewMember(
+      currentMemberNo
+    );
+
+  }
+  catch (err) {
+
     console.error(err);
-    setStatus("Gagal mengambil data peserta. Tekan Scan Lagi.");
+
+    setStatus(
+      "Gagal mengambil data peserta. Tekan Scan Lagi."
+    );
+
   }
+
 }
 
-function restartScanner(){
+
+// ============================
+// SCAN ULANG
+// ============================
+
+function restartScanner() {
+
   location.reload();
+
 }
 
-window.onload = startScanner;
+
+window.onload =
+  startScanner;
