@@ -54,7 +54,7 @@ function onScanSuccess(decodedText){
   const memberId = encodeURIComponent(noPeserta);
 
   const checkInUrl =
-    "https://script.google.com/macros/s/AKfycby-fqecjb73al_AT8vmQoG9LWqPeEtyN_-WyjrJwkM2ph4Fdk95xK2NmhqqEM5GSfcehw/exec"
+    "https://script.google.com/macros/s/AKfycbyMRyk-hHScu_j1d5xggDu_jY-xd70e5SHcqiBztwnEAfr0WzSHynQ2vvi5k-9YeCmM/exec"
     + "?page=checkin"
     + "&eventId=" + eventId
     + "&memberId=" + memberId;
