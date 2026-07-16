@@ -1,5 +1,5 @@
 const API_URL =
-"https://script.google.com/macros/s/AKfycbzk78w5BqDWSPOmCsNJe_QfMwVvqhsFD0HLe4ypCb0zt3SEDbF-RvvZyw1tkrLDWWXolQ/exec?page=api";
+"https://script.google.com/macros/s/AKfycbyMRyk-hHScu_j1d5xggDu_jY-xd70e5SHcqiBztwnEAfr0WzSHynQ2vvi5k-9YeCmM/exec?page=api";
 
 async function previewMember(memberId){
 
