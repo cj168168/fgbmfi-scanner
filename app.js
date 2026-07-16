@@ -53,10 +53,6 @@ function showGuest(data){
 
         <p>${data.memberId}</p>
 
-        <p>🪑 Table ${data.tableNo}</p>
-
-        <p>💺 Seat ${data.seatFrom}-${data.seatTo}</p>
-
         <button onclick="restartScanner()">
 
         Scan Lagi
@@ -75,8 +71,6 @@ function showGuest(data){
         <h2>${data.nama}</h2>
 
         <p>${data.memberId}</p>
-
-        <p>Pax : ${data.pax}</p>
 
         <button onclick="doCheckIn('${data.memberId}')">
 
@@ -105,10 +99,6 @@ async function doCheckIn(memberId){
     </h2>
 
     <h3>${data.nama}</h3>
-
-    <p>🪑 Table ${data.tableNo}</p>
-
-    <p>💺 Seat ${data.seatFrom}-${data.seatTo}</p>
 
     `;
 
