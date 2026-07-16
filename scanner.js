@@ -37,8 +37,21 @@ function onScanSuccess(decodedText){
     return;
   }
 
-  const eventId = encodeURIComponent(parts[0]);
-  const memberId = encodeURIComponent(parts[1]);
+  const eventCode = String(parts[0] || "").trim().toUpperCase();
+  const rawNo = String(parts[1] || "").trim();
+
+  if(eventCode !== "FGBMFI" || !/^\d{1,3}$/.test(rawNo)){
+    document.getElementById("status").innerText =
+      "QR FGBMFI tidak valid";
+    locked = false;
+    return;
+  }
+
+  // QR boleh FGBMFI|001, tetapi sheet Data kolom No tetap 1-200.
+  // Apps Script menerima memberId = 1, 2, ... 200 agar cocok dengan kolom No.
+  const noPeserta = String(parseInt(rawNo, 10));
+  const eventId = encodeURIComponent(eventCode);
+  const memberId = encodeURIComponent(noPeserta);
 
   const checkInUrl =
     "https://script.google.com/macros/s/AKfycby-fqecjb73al_AT8vmQoG9LWqPeEtyN_-WyjrJwkM2ph4Fdk95xK2NmhqqEM5GSfcehw/exec"
